@@ -1,3 +1,7 @@
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class MyHomeworkTests {
 
     /*
@@ -7,6 +11,36 @@ public class MyHomeworkTests {
     3) от 3 до 6 дней включительно - получить 30% стоимости билетов;
     4) 72 часа и менее до начала концерта - стоимость билетов не возвращается.
      */
+    @Test
+    public void testGetRefundTicketPricePercent_Returns100() {
+        int result = this.getRefundTicketPricePercent(10, true, true);
+        assertEquals(100, result);
+    }
+
+    @Test
+    public void testGetRefundTicketPricePercent_Over240Hour_Returns100() {
+        int result = this.getRefundTicketPricePercent(300, false, false);
+        assertEquals(100, result);
+    }
+
+    @Test
+    public void testGetRefundTicketPricePercent_Returns50() {
+        int result = this.getRefundTicketPricePercent(200, false, false);
+        assertEquals(50, result);
+    }
+
+    @Test
+    public void testGetRefundTicketPricePercent_Returns30() {
+        int result = this.getRefundTicketPricePercent(50, false, false);
+        assertEquals(30, result);
+    }
+
+    @Test
+    public void testGetRefundTicketPricePercent_Returns0() {
+        int result = this.getRefundTicketPricePercent(2, false, false);
+        assertEquals(0, result);
+    }
+
     private Integer getRefundTicketPricePercent(Integer hoursBeforeConcert, Boolean wasConcertCancelled, Boolean wasConcertRescheduled)
     {
         if(wasConcertCancelled && wasConcertRescheduled) return 100;
@@ -14,26 +48,6 @@ public class MyHomeworkTests {
         if(hoursBeforeConcert >= 144 && hoursBeforeConcert <= 240) return 50;
         if(hoursBeforeConcert > 3 && hoursBeforeConcert <= 144) return 30;
         return 0;
-    }
-
-
-    /*
-    Всего ученик может заработать максимум 100 баллов, минимум 0.
-    Его оценка за экзамен может принимать следующие значения: 2, 3, 4 или 5.
-
-    Если ученик получил за экзамен:
-    - от 0 баллов (включительно) до 35 (включительно), его оценка равна 2;
-    - от 35 баллов (не включительно) до 56 (включительно), его оценка равна 3;
-    - от 56 баллов (не включительно) до 71 (включительно), его оценка равна 4;
-    - от 72 баллов (включительно) до 100 баллов (включительно), его оценка равна 5.
-     */
-    private String getMarkResult(Integer mark)
-    {
-        if(mark >= 0 && mark <= 35) return "2";
-        if(mark > 35 && mark <= 56) return "3";
-        if(mark > 56 && mark < 71) return "4";
-        if(mark > 72 && mark < 100) return "5";
-        return "no mark result";
     }
 
 }
